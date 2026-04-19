@@ -22,15 +22,27 @@ jobs:
       - name: Install miniprogram-ci
         run: npm install -g miniprogram-ci
 
+      - name: Find miniprogram-ci binary
+        run: |
+          CI_PATH=$(npm root -g)/miniprogram-ci/bin/miniprogram-ci.js
+          echo "Binary: $CI_PATH"
+          ls -la "$CI_PATH"
+          head -5 "$CI_PATH"
+          echo "---"
+          node --version
+          echo "---"
+          node "$CI_PATH" --version
+
       - name: Deploy to WeChat Mini Program
         run: |
           echo "${{ secrets.MINIPROGRAM_UPLOAD_PRIVATE_KEY }}" > /tmp/private.key
           chmod 600 /tmp/private.key
-          echo "Key written: $(wc -c < /tmp/private.key) bytes"
-          grep appid project.config.json
+          echo "Key: $(wc -c < /tmp/private.key) bytes"
           
-          npx --yes miniprogram-ci \
-            upload \
+          CI_BIN=$(npm root -g)/miniprogram-ci/bin/miniprogram-ci.js
+          echo "Using: $CI_BIN"
+          
+          node "$CI_BIN" upload \
             --appid wx92d88f2ddf8bad27 \
             --private-key /tmp/private.key \
             --project . \
