@@ -24,9 +24,10 @@ jobs:
 
       - name: Deploy to WeChat Mini Program
         run: |
+          echo "${{ secrets.MINIPROGRAM_UPLOAD_PRIVATE_KEY }}" > /tmp/private.key
           npx miniprogram-ci \
             --appid wx92d88f2ddf8bad27 \
-            --private-key ${{ secrets.MINIPROGRAM_UPLOAD_PRIVATE_KEY }} \
+            --private-key /tmp/private.key \
             --project ${{ github.workspace }} \
             --version 1.0.${{ github.run_number }} \
             --desc 'Auto deploy via GitHub Actions'
