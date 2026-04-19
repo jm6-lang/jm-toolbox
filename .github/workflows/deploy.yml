@@ -19,32 +19,47 @@ jobs:
         with:
           node-version: '20'
 
-      - name: Install miniprogram-ci
-        run: npm install -g miniprogram-ci
+      - name: Install miniprogram-ci locally
+        run: npm install miniprogram-ci
 
-      - name: Find miniprogram-ci binary
+      - name: Write upload script
         run: |
-          CI_PATH=$(npm root -g)/miniprogram-ci/bin/miniprogram-ci.js
-          echo "Binary: $CI_PATH"
-          ls -la "$CI_PATH"
-          head -5 "$CI_PATH"
-          echo "---"
-          node --version
-          echo "---"
-          node "$CI_PATH" --version
+          cat > upload.js << 'JSEOF'
+          const { upload } = require('miniprogram-ci');
+          const fs = require('fs');
+          const key = fs.readFileSync('/tmp/private.key', 'utf8');
+          console.log('Key loaded, length:', key.length);
+          console.log('Key starts with:', key.substring(0, 30));
+          
+          upload({
+            appid: 'wx92d88f2ddf8bad27',
+            privateKey: key,
+            projectPath: '.',
+            version: process.argv[2] || '1.0.0',
+            desc: process.argv[3] || 'Auto deploy',
+            type: 'miniProgram',
+          }).then(r => {
+            console.log('SUCCESS:', JSON.stringify(r, null, 2));
+          }).catch(err => {
+            console.error('ERROR:', err.message);
+            console.error('DETAILS:', err.stack);
+            process.exit(1);
+          });
+          JSEOF
+          echo "Script created"
 
-      - name: Deploy to WeChat Mini Program
+      - name: Write private key
+        env:
+          PRIVATE_KEY: ${{ secrets.MINIPROGRAM_UPLOAD_PRIVATE_KEY }}
         run: |
-          echo "${{ secrets.MINIPROGRAM_UPLOAD_PRIVATE_KEY }}" > /tmp/private.key
+          printf '%s\n' "$PRIVATE_KEY" > /tmp/private.key
           chmod 600 /tmp/private.key
-          echo "Key: $(wc -c < /tmp/private.key) bytes"
+          wc -c /tmp/private.key
+
+      - name: Run upload via JS API
+        run: |
+          echo "=== Help info ==="
+          node node_modules/miniprogram-ci/bin/miniprogram-ci.js --help 2>&1 | head -30 || echo "No help available"
           
-          CI_BIN=$(npm root -g)/miniprogram-ci/bin/miniprogram-ci.js
-          echo "Using: $CI_BIN"
-          
-          node "$CI_BIN" upload \
-            --appid wx92d88f2ddf8bad27 \
-            --private-key /tmp/private.key \
-            --project . \
-            --version 1.0.${{ github.run_number }} \
-            --desc 'Auto deploy via GitHub Actions'
+          echo "=== Running upload ==="
+          node upload.js 1.0.${{ github.run_number }} "Auto deploy via GitHub Actions"
