@@ -22,44 +22,46 @@ jobs:
       - name: Install miniprogram-ci locally
         run: npm install miniprogram-ci
 
-      - name: Write upload script
-        run: |
-          cat > upload.js << 'JSEOF'
-          const { upload } = require('miniprogram-ci');
-          const fs = require('fs');
-          const key = fs.readFileSync('/tmp/private.key', 'utf8');
-          console.log('Key loaded, length:', key.length);
-          console.log('Key starts with:', key.substring(0, 30));
-          
-          upload({
-            appid: 'wx92d88f2ddf8bad27',
-            privateKey: key,
-            projectPath: '.',
-            version: process.argv[2] || '1.0.0',
-            desc: process.argv[3] || 'Auto deploy',
-            type: 'miniProgram',
-          }).then(r => {
-            console.log('SUCCESS:', JSON.stringify(r, null, 2));
-          }).catch(err => {
-            console.error('ERROR:', err.message);
-            console.error('DETAILS:', err.stack);
-            process.exit(1);
-          });
-          JSEOF
-          echo "Script created"
-
       - name: Write private key
         env:
           PRIVATE_KEY: ${{ secrets.MINIPROGRAM_UPLOAD_PRIVATE_KEY }}
         run: |
           printf '%s\n' "$PRIVATE_KEY" > /tmp/private.key
           chmod 600 /tmp/private.key
-          wc -c /tmp/private.key
+          echo "Key written: $(wc -c < /tmp/private.key) bytes"
 
-      - name: Run upload via JS API
+      - name: Upload via JS API
         run: |
-          echo "=== Help info ==="
-          node node_modules/miniprogram-ci/bin/miniprogram-ci.js --help 2>&1 | head -30 || echo "No help available"
-          
-          echo "=== Running upload ==="
-          node upload.js 1.0.${{ github.run_number }} "Auto deploy via GitHub Actions"
+          node - << 'EOF'
+          const { upload, Project } = require('miniprogram-ci');
+          const path = require('path');
+          const fs = require('fs');
+
+          const privateKey = fs.readFileSync('/tmp/private.key', 'utf8');
+          const projectPath = process.cwd();
+          const version = '1.0.' + (process.env.GITHUB_RUN_NUMBER || '0');
+          const desc = 'Auto deploy via GitHub Actions';
+
+          console.log('Project path:', projectPath);
+          console.log('Version:', version);
+
+          const project = new Project({
+            appid: 'wx92d88f2ddf8bad27',
+            type: 'miniProgram',
+            projectPath: projectPath,
+            privateKey: privateKey,
+            ignores: ['node_modules/**/*'],
+          });
+
+          upload({
+            project,
+            version,
+            desc,
+          }).then(result => {
+            console.log('✅ Upload SUCCESS:', JSON.stringify(result, null, 2));
+          }).catch(err => {
+            console.error('❌ Upload FAILED:', err.message);
+            if (err.response) console.error('Response:', err.response.data);
+            process.exit(1);
+          });
+          EOF
