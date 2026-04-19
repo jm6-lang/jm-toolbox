@@ -1,0 +1,28 @@
+<view class="page">
+  <view class="hero-card">
+    <view class="hero-emoji" wx:if="{{current}}">{{current.emoji}}</view>
+    <view class="hero-placeholder" wx:else>🎲</view>
+    <view class="hero-label" wx:if="{{current}}">{{current.label}}</view>
+    <view class="hero-hint" wx:else>点击按钮随机获取表情</view>
+  </view>
+
+  <button class="btn-random" bindtap="randomPick">
+    🎰 随机抽取表情包
+  </button>
+
+  <view wx:if="{{current}}" class="action-row">
+    <button class="btn-copy" bindtap="copyEmoji">📋 复制表情</button>
+    <button class="btn-share" open-type="share">🔗 分享</button>
+  </view>
+
+  <view class="card" wx:if="{{history.length > 0}}">
+    <view class="card-title">📜 最近记录</view>
+    <view class="history-list">
+      <view class="history-item" wx:for="{{history}}" wx:key="id">
+        <text class="history-emoji">{{item.emoji}}</text>
+        <text class="history-label">{{item.label}}</text>
+        <text class="history-time">{{item.time}}</text>
+      </view>
+    </view>
+  </view>
+</view>

@@ -1,0 +1,45 @@
+<view class="page">
+  <view class="mode-tabs">
+    <view class="tab {{mode === 'cat2dog' ? 'active' : ''}}" data-mode="cat2dog" bindtap="onModeChange">
+      🐱→🐶
+    </view>
+    <view class="tab {{mode === 'dog2cat' ? 'active' : ''}}" data-mode="dog2cat" bindtap="onModeChange">
+      🐶→🐱
+    </view>
+    <view class="tab {{mode === 'cat2human' ? 'active' : ''}}" data-mode="cat2human" bindtap="onModeChange">
+      🐱→💬
+    </view>
+    <view class="tab {{mode === 'dog2human' ? 'active' : ''}}" data-mode="dog2human" bindtap="onModeChange">
+      🐶→💬
+    </view>
+    <view class="tab {{mode === 'human2animal' ? 'active' : ''}}" data-mode="human2animal" bindtap="onModeChange">
+      💬→🐾
+    </view>
+  </view>
+
+  <view class="card">
+    <textarea class="input-area" placeholder="在此输入文字..." value="{{inputText}}" bindinput="onInput" maxlength="500"/>
+    <view class="input-footer">
+      <text class="char-count">{{inputText.length}}/500</text>
+      <button class="btn-clear" size="mini" bindtap="clearInput">清空</button>
+    </view>
+  </view>
+
+  <button class="btn-translate" bindtap="translate">🌟 开始翻译</button>
+
+  <view wx:if="{{result}}" class="result-card">
+    <view class="result-title">✨ 翻译结果</view>
+    <view class="result-text">{{result}}</view>
+    <button class="btn-copy" bindtap="copyResult">📋 复制结果</button>
+  </view>
+
+  <view class="card" wx:if="{{history.length > 0}}">
+    <view class="card-title">📜 翻译记录</view>
+    <view class="history-list">
+      <view class="history-item" wx:for="{{history}}" wx:key="index">
+        <view class="history-text">{{item.input}} → {{item.output}}</view>
+        <text class="history-time">{{item.time}}</text>
+      </view>
+    </view>
+  </view>
+</view>

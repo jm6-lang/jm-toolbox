@@ -1,0 +1,24 @@
+<view class="page">
+  <view wx:if="{{!empty}}" class="header-bar">
+    <text class="header-title">共{{history.length}}条记录</text>
+    <text class="clear-btn" bindtap="clearHistory">🗑️ 清空</text>
+  </view>
+
+  <view wx:if="{{empty}}" class="empty-state">
+    <text class="empty-icon">📭</text>
+    <text class="empty-text">暂无使用记录</text>
+    <text class="empty-hint">快去体验各种工具吧</text>
+  </view>
+
+  <view wx:else class="history-list">
+    <view class="history-item" wx:for="{{history}}" wx:key="id">
+      <view class="item-left">
+        <text class="item-emoji">{{item.type === 'meme' ? item.emoji : '🔧'}}</text>
+      </view>
+      <view class="item-content">
+        <text class="item-name">{{item.toolName || item.label || '工具使用'}}</text>
+        <text class="item-time">{{item.time}}</text>
+      </view>
+    </view>
+  </view>
+</view>

@@ -1,0 +1,10 @@
+{
+  "name": "jm-toolbox",
+  "version": "1.0.0",
+  "description": "JM的工具箱 - 微信小程序",
+  "scripts": {
+    "upload": "miniprogram-ci --appid wx92d88f2ddf8bad27 --private-key ./private.wx92d88f2ddf8bad27.key --project ./ --version 1.0.0 --desc 'upload'"
+  },
+  "dependencies": {},
+  "devDependencies": {}
+}

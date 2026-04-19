@@ -1,0 +1,39 @@
+<view class="page">
+  <view class="upload-area" bindtap="chooseImage">
+    <image wx:if="{{imagePath}}" src="{{imagePath}}" mode="aspectFit" class="preview-img"/>
+    <view wx:else class="placeholder">
+      <text class="icon">🖼️</text>
+      <text class="text">点击上传带水印的图片</text>
+    </view>
+  </view>
+
+  <view class="tips-bar" bindtap="showTip">
+    <text class="tips-icon">💡</text>
+    <text class="tips-text">使用建议：点击查看</text>
+    <text class="tips-arrow">›</text>
+  </view>
+
+  <view class="card">
+    <view class="card-title">⚙️ 处理设置</view>
+    <view class="setting-item">
+      <text class="setting-label">处理模式</text>
+      <picker mode="selector" range="{{['自动识别', '涂抹移除']}}" bindchange="onModeChange">
+        <view class="picker-row">
+          <text>{{mode === 'auto' ? '自动识别' : '涂抹移除'}}</text>
+          <text class="arrow">›</text>
+        </view>
+      </picker>
+    </view>
+  </view>
+
+  <button class="btn-primary" bindtap="process" disabled="{{processing || !imagePath}}">
+    {{processing ? '处理中...' : '🔧 开始去水印'}}
+  </button>
+
+  <view wx:if="{{processed}}" class="result-card">
+    <view class="card-title">✅ 处理结果</view>
+    <image src="{{resultImage}}" mode="aspectFit" class="result-img"/>
+    <button class="btn-save" bindtap="saveImage">📥 保存到相册</button>
+    <button class="btn-share" open-type="share">🔗 分享</button>
+  </view>
+</view>

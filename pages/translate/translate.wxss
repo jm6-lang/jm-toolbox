@@ -1,0 +1,22 @@
+/* pages/translate/translate.wxss */
+.page { padding: 24rpx; background: #F8F9FA; min-height: 100vh; }
+.mode-tabs { display: flex; gap: 12rpx; margin-bottom: 24rpx; flex-wrap: wrap; }
+.tab { flex: 1; min-width: 100rpx; background: #FFF; border-radius: 16rpx; padding: 20rpx 8rpx; text-align: center; font-size: 24rpx; color: #666; border: 2rpx solid transparent; }
+.tab.active { background: #27AE60; color: #FFF; border-color: #27AE60; }
+.card { background: #FFF; border-radius: 24rpx; padding: 30rpx; margin-bottom: 24rpx; }
+.input-area { width: 100%; min-height: 180rpx; background: #F8F9FA; border-radius: 16rpx; padding: 24rpx; font-size: 28rpx; box-sizing: border-box; line-height: 1.6; }
+.input-footer { display: flex; justify-content: space-between; align-items: center; margin-top: 12rpx; }
+.char-count { font-size: 22rpx; color: #999; }
+.btn-clear { background: #F0F0F0; color: #999; font-size: 22rpx; padding: 8rpx 20rpx; border-radius: 20rpx; }
+.btn-translate { background: linear-gradient(135deg, #27AE60, #2ECC71); color: #FFF; border-radius: 50rpx; padding: 28rpx; font-size: 30rpx; font-weight: 600; border: none; box-shadow: 0 6rpx 24rpx rgba(39, 174, 96, 0.4); margin-bottom: 24rpx; }
+.btn-translate::after { border: none; }
+.result-card { background: #FFF; border-radius: 24rpx; padding: 30rpx; margin-bottom: 24rpx; }
+.result-title { font-size: 26rpx; color: #999; margin-bottom: 16rpx; }
+.result-text { background: #E8F5E9; border-radius: 16rpx; padding: 24rpx; font-size: 30rpx; color: #27AE60; font-weight: 600; line-height: 1.6; min-height: 100rpx; word-break: break-all; }
+.btn-copy { background: linear-gradient(135deg, #27AE60, #2ECC71); color: #FFF; border-radius: 50rpx; padding: 20rpx; font-size: 26rpx; font-weight: 600; border: none; margin-top: 16rpx; }
+.btn-copy::after { border: none; }
+.card-title { font-size: 28rpx; font-weight: 600; color: #2D3436; margin-bottom: 16rpx; }
+.history-list { display: flex; flex-direction: column; gap: 12rpx; }
+.history-item { background: #F8F9FA; border-radius: 12rpx; padding: 16rpx 20rpx; }
+.history-text { font-size: 24rpx; color: #666; line-height: 1.5; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.history-time { font-size: 20rpx; color: #999; margin-top: 4rpx; display: block; }

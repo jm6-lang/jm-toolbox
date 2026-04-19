@@ -1,0 +1,53 @@
+<view class="page">
+  <!-- Banner -->
+  <view class="banner">
+    <view class="banner-content">
+      <text class="banner-title">{{banner.title}}</text>
+      <text class="banner-subtitle">{{banner.subtitle}}</text>
+    </view>
+    <view class="banner-decoration">
+      <text class="banner-emoji">🧰</text>
+    </view>
+  </view>
+
+  <!-- Stats -->
+  <view class="stats-row">
+    <view class="stat-item">
+      <text class="stat-num">{{stats.totalUsers}}</text>
+      <text class="stat-label">用户使用</text>
+    </view>
+    <view class="stat-divider"></view>
+    <view class="stat-item">
+      <text class="stat-num">{{stats.toolsUsed}}</text>
+      <text class="stat-label">你的使用次数</text>
+    </view>
+  </view>
+
+  <!-- Tools -->
+  <view class="section-title">
+    <text class="title-text">全部工具</text>
+    <text class="title-count">共{{tools.length}}个</text>
+  </view>
+
+  <view class="tools-list">
+    <view 
+      class="tool-card" 
+      wx:for="{{tools}}" 
+      wx:key="id"
+      data-id="{{item.id}}"
+      bindtap="goTool"
+    >
+      <view class="tool-icon" style="background: {{item.iconBg}}">
+        <text>{{item.icon}}</text>
+      </view>
+      <view class="tool-info">
+        <view class="tool-name-row">
+          <text class="tool-name">{{item.name}}</text>
+          <text class="tool-tag {{item.tagClass}}" wx:if="{{item.tag}}">{{item.tag}}</text>
+        </view>
+        <text class="tool-desc">{{item.desc}}</text>
+      </view>
+      <text class="tool-arrow">›</text>
+    </view>
+  </view>
+</view>

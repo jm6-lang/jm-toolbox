@@ -1,0 +1,111 @@
+/* pages/index/index.wxss */
+
+.page {
+  padding: 0;
+  background: #F8F9FA;
+}
+
+/* Banner */
+.banner {
+  background: linear-gradient(135deg, #6C5CE7 0%, #A29BFE 100%);
+  padding: 40rpx 32rpx;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-radius: 0 0 40rpx 40rpx;
+  min-height: 200rpx;
+}
+
+.banner-content {
+  display: flex;
+  flex-direction: column;
+}
+
+.banner-title {
+  font-size: 44rpx;
+  font-weight: 700;
+  color: #FFFFFF;
+  margin-bottom: 12rpx;
+}
+
+.banner-subtitle {
+  font-size: 24rpx;
+  color: rgba(255, 255, 255, 0.85);
+}
+
+.banner-decoration {
+  width: 120rpx;
+  height: 120rpx;
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 30rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.banner-emoji {
+  font-size: 64rpx;
+}
+
+/* Stats */
+.stats-row {
+  display: flex;
+  align-items: center;
+  background: #FFFFFF;
+  margin: -20rpx 32rpx 32rpx;
+  border-radius: 20rpx;
+  padding: 28rpx;
+  box-shadow: 0 4rpx 20rpx rgba(0, 0, 0, 0.06);
+  position: relative;
+  z-index: 10;
+}
+
+.stat-item {
+  flex: 1;
+  text-align: center;
+}
+
+.stat-num {
+  display: block;
+  font-size: 36rpx;
+  font-weight: 700;
+  color: #6C5CE7;
+  margin-bottom: 8rpx;
+}
+
+.stat-label {
+  font-size: 22rpx;
+  color: #999999;
+}
+
+.stat-divider {
+  width: 1rpx;
+  height: 50rpx;
+  background: #F0F0F0;
+  margin: 0 32rpx;
+}
+
+/* Section Title */
+.section-title {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 32rpx;
+  margin-bottom: 24rpx;
+}
+
+.title-text {
+  font-size: 34rpx;
+  font-weight: 600;
+  color: #2D3436;
+}
+
+.title-count {
+  font-size: 24rpx;
+  color: #999999;
+}
+
+/* Tools List */
+.tools-list {
+  padding: 0 32rpx 40rpx;
+}

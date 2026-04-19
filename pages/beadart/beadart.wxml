@@ -1,0 +1,130 @@
+<view class="page">
+  <!-- 上传区域 -->
+  <view class="upload-area" bindtap="chooseImage">
+    <image 
+      wx:if="{{imagePath}}" 
+      src="{{imagePath}}" 
+      class="preview-image" 
+      mode="aspectFit"
+      bindtap="previewOriginal"
+    />
+    <view wx:else class="upload-placeholder">
+      <text class="upload-icon">🖼️</text>
+      <text class="upload-text">点击上传图片</text>
+      <text class="upload-hint">支持 JPG / PNG</text>
+    </view>
+  </view>
+
+  <!-- 设置区域 -->
+  <view class="settings-card">
+    <view class="card-title">⚙️ 生成设置</view>
+    
+    <!-- 色卡选择 -->
+    <view class="setting-item">
+      <text class="setting-label">选择色卡</text>
+      <picker 
+        mode="selector" 
+        range="{{colorCardList}}" 
+        range-key="name"
+        bindchange="onBrandChange"
+      >
+        <view class="picker-value">
+          {{COLOR_CARDS[brand].name}} 
+          <text class="picker-arrow">›</text>
+        </view>
+      </picker>
+    </view>
+
+    <!-- 画布尺寸 -->
+    <view class="setting-item">
+      <view class="setting-label-row">
+        <text class="setting-label">画布尺寸</text>
+        <text class="setting-value">{{gridSize}}×{{gridSize}}</text>
+      </view>
+      <slider 
+        min="16" 
+        max="64" 
+        step="8" 
+        value="{{gridSize}}"
+        bindchange="onGridSizeChange"
+        activeColor="#6C5CE7"
+      />
+    </view>
+
+    <!-- 颜色合并 -->
+    <view class="setting-item">
+      <view class="setting-label-row">
+        <text class="setting-label">颜色合并</text>
+        <text class="setting-value">{{colorMerge === 0 ? '原始' : colorMerge + '级'}}</text>
+      </view>
+      <slider 
+        min="0" 
+        max="50" 
+        step="5" 
+        value="{{colorMerge}}"
+        bindchange="onColorMergeChange"
+        activeColor="#6C5CE7"
+      />
+      <view class="setting-hint">值越大颜色越少，方便购买豆子</view>
+    </view>
+
+    <!-- 生成按钮 -->
+    <button 
+      class="btn-generate {{generating ? 'disabled' : ''}}" 
+      bindtap="generate"
+      disabled="{{generating}}"
+    >
+      {{generating ? '生成中...' : '⚡ 生成拼豆图纸'}}
+    </button>
+  </view>
+
+  <!-- 结果展示 -->
+  <view wx:if="{{generated}}" class="result-card">
+    <view class="card-title">📐 生成结果</view>
+    
+    <!-- 预览图 -->
+    <view class="result-preview">
+      <image 
+        src="{{resultImage}}" 
+        class="result-image" 
+        mode="aspectFit"
+        style="transform: scale({{scale}})"
+      />
+    </view>
+
+    <!-- 缩放控制 -->
+    <view class="scale-control">
+      <text class="scale-label">缩放: {{scale}}x</text>
+      <slider 
+        min="0.5" 
+        max="3" 
+        step="0.1" 
+        value="{{scale}}"
+        bindchange="onScaleChange"
+        activeColor="#6C5CE7"
+      />
+    </view>
+
+    <!-- 颜色统计 -->
+    <view class="color-stats">
+      <view class="stats-title">🛒 物料清单</view>
+      <view class="color-list">
+        <view 
+          class="color-item" 
+          wx:for="{{colorStats}}" 
+          wx:key="hex"
+        >
+          <view class="color-swatch" style="background: {{item.hex}}"></view>
+          <text class="color-name">{{item.name}}</text>
+          <text class="color-count">×{{item.count}}颗</text>
+        </view>
+      </view>
+    </view>
+
+    <!-- 操作按钮 -->
+    <view class="action-btns">
+      <button class="btn-save" bindtap="saveImage">📥 保存到相册</button>
+      <button class="btn-share" open-type="share">🔗 分享给好友</button>
+    </view>
+  </view>
+</view>
