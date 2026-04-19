@@ -22,20 +22,11 @@ jobs:
       - name: Install miniprogram-ci
         run: npm install -g miniprogram-ci
 
-      - name: Upload to WeChat Mini Program
-        uses: actions/upload-artifact@v4
-        with:
-          name: miniprogram-package
-          path: ./
-        env:
-          MINIPROGRAM_APPID: wx92d88f2ddf8bad27
-          MINIPROGRAM_PRIVATE_KEY: ${{ secrets.MINIPROGRAM_UPLOAD_PRIVATE_KEY }}
-
-      - name: Deploy
+      - name: Deploy to WeChat Mini Program
         run: |
           npx miniprogram-ci \
             --appid wx92d88f2ddf8bad27 \
             --private-key ${{ secrets.MINIPROGRAM_UPLOAD_PRIVATE_KEY }} \
-            --project ./ \
+            --project ${{ github.workspace }} \
             --version 1.0.${{ github.run_number }} \
             --desc 'Auto deploy via GitHub Actions'
