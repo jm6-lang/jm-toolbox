@@ -1,0 +1,31 @@
+.page { padding: 24rpx; background: #f5f6fa; min-height: 100vh; }
+.header { text-align: center; padding: 32rpx 0 16rpx; }
+.header-title { font-size: 40rpx; font-weight: 700; color: #2d3436; display: block; }
+.header-sub { font-size: 26rpx; color: #999; margin-top: 8rpx; display: block; }
+.event-list { margin-top: 16rpx; }
+.event-card { display: flex; align-items: center; justify-content: space-between; background: #fff; border-radius: 16rpx; padding: 28rpx 24rpx; margin-bottom: 16rpx; box-shadow: 0 2rpx 12rpx rgba(0,0,0,0.04); }
+.event-past { opacity: 0.6; }
+.event-main { display: flex; align-items: center; gap: 24rpx; }
+.event-days { text-align: center; min-width: 120rpx; }
+.days-num { font-size: 48rpx; font-weight: 700; color: #6C5CE7; display: block; }
+.event-past .days-num { color: #999; }
+.days-label { font-size: 22rpx; color: #999; }
+.event-info { display: flex; flex-direction: column; }
+.event-title { font-size: 30rpx; font-weight: 600; color: #2d3436; }
+.event-date { font-size: 24rpx; color: #999; margin-top: 4rpx; }
+.event-delete { font-size: 28rpx; color: #ccc; padding: 8rpx 16rpx; }
+.empty { text-align: center; padding: 80rpx 0; }
+.empty-icon { font-size: 80rpx; display: block; }
+.empty-text { font-size: 28rpx; color: #999; margin-top: 16rpx; display: block; }
+.btn-add { background: #6C5CE7; color: #fff; border-radius: 16rpx; font-size: 30rpx; padding: 24rpx; margin-top: 24rpx; }
+.modal-mask { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.5); z-index: 100; }
+.modal { position: fixed; bottom: 0; left: 0; right: 0; background: #fff; border-radius: 32rpx 32rpx 0 0; padding: 40rpx 32rpx; z-index: 101; }
+.modal-title { font-size: 34rpx; font-weight: 600; text-align: center; margin-bottom: 32rpx; }
+.modal-field { margin-bottom: 24rpx; }
+.modal-label { font-size: 28rpx; color: #333; display: block; margin-bottom: 8rpx; }
+.modal-input { border: 1rpx solid #eee; border-radius: 12rpx; padding: 20rpx; font-size: 28rpx; }
+.picker-val { color: #333; }
+.modal-btns { display: flex; gap: 16rpx; margin-top: 32rpx; }
+.modal-btn { flex: 1; border-radius: 12rpx; font-size: 30rpx; padding: 20rpx; }
+.modal-btn.cancel { background: #f0f0f0; color: #666; }
+.modal-btn.confirm { background: #6C5CE7; color: #fff; }

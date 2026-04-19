@@ -5,12 +5,23 @@ Page({
   data: {
     tools: [
       {
+        id: 'countdown',
+        name: '倒计时日历',
+        desc: '纪念日考试生日天数倒计时提醒',
+        icon: '📅',
+        iconBg: '#E17055',
+        tag: '热搜',
+        tagClass: 'tag-red',
+        hot: true,
+        category: 'life'
+      },
+      {
         id: 'qrcode',
         name: '二维码生成器',
         desc: '文字/网址/WiFi一键生成二维码',
         icon: '📱',
         iconBg: '#E84393',
-        tag: '热搜',
+        tag: '实用',
         tagClass: 'tag-pink',
         hot: true,
         category: 'image'
@@ -21,7 +32,7 @@ Page({
         desc: '批量压缩照片，缩小体积不失真',
         icon: '📦',
         iconBg: '#00B894',
-        tag: '实用',
+        tag: '热门',
         tagClass: 'tag-green',
         hot: true,
         category: 'image'
@@ -38,25 +49,36 @@ Page({
         category: 'life'
       },
       {
-        id: 'ruler',
-        name: '手机尺子',
-        desc: '手机秒变尺子，随时测量长度',
-        icon: '📏',
+        id: 'relative',
+        name: '亲戚称谓计算器',
+        desc: '过年走亲戚不再叫错人',
+        icon: '👨‍👩‍👧‍👦',
         iconBg: '#FDCB6E',
-        tag: '便捷',
+        tag: '趣味',
         tagClass: 'tag-yellow',
-        hot: false,
+        hot: true,
         category: 'life'
       },
       {
-        id: 'beadart',
-        name: '拼豆图片生成器',
-        desc: '上传图片生成拼豆图纸和色板',
+        id: 'colorpicker',
+        name: '颜色识别器',
+        desc: '图片取色器，识别颜色值HEX/RGB',
         icon: '🎨',
         iconBg: '#6C5CE7',
+        tag: '设计',
+        tagClass: 'tag-purple',
+        hot: false,
+        category: 'image'
+      },
+      {
+        id: 'beadart',
+        name: '拼豆图纸生成器',
+        desc: '上传图片生成拼豆图纸和色板',
+        icon: '🧩',
+        iconBg: '#A29BFE',
         tag: '手工',
         tagClass: 'tag-purple',
-        hot: true,
+        hot: false,
         category: 'image'
       },
       {
@@ -65,10 +87,21 @@ Page({
         desc: '智能去除图片水印和Logo',
         icon: '🧹',
         iconBg: '#3498DB',
-        tag: '热门',
-        tagClass: 'tag-blue',
-        hot: true,
+        tag: '',
+        tagClass: '',
+        hot: false,
         category: 'image'
+      },
+      {
+        id: 'ruler',
+        name: '手机尺子',
+        desc: '手机秒变尺子，随时测量长度',
+        icon: '📏',
+        iconBg: '#FDCB6E',
+        tag: '',
+        tagClass: '',
+        hot: false,
+        category: 'life'
       },
       {
         id: 'sensitive',
@@ -87,8 +120,8 @@ Page({
         desc: '海量表情包随机获取，斗图必备',
         icon: '😄',
         iconBg: '#F39C12',
-        tag: '娱乐',
-        tagClass: 'tag-orange',
+        tag: '',
+        tagClass: '',
         hot: false,
         category: 'fun'
       },
@@ -98,18 +131,18 @@ Page({
         desc: '喵星人汪星人语言互译',
         icon: '🐱',
         iconBg: '#27AE60',
-        tag: '趣味',
-        tagClass: 'tag-green',
+        tag: '',
+        tagClass: '',
         hot: false,
         category: 'fun'
       }
     ],
     categories: [
       { id: 'all', name: '全部' },
-      { id: 'image', name: '图片工具' },
-      { id: 'life', name: '生活工具' },
-      { id: 'text', name: '文字工具' },
-      { id: 'fun', name: '趣味工具' }
+      { id: 'life', name: '生活' },
+      { id: 'image', name: '图片' },
+      { id: 'text', name: '文字' },
+      { id: 'fun', name: '趣味' }
     ],
     activeCategory: 'all',
     filteredTools: [],
@@ -120,7 +153,7 @@ Page({
     },
     banner: {
       title: 'JM工具箱',
-      subtitle: '永久免费 · 无限使用 · 9款实用工具'
+      subtitle: '永久免费 · 无限使用 · 12款实用工具'
     }
   },
 
@@ -135,8 +168,8 @@ Page({
 
   filterTools() {
     const { tools, activeCategory, categories } = this.data;
-    const filtered = activeCategory === 'all' ? tools : tools.filter(t => t.category === activeCategory);
-    const cat = categories.find(c => c.id === activeCategory);
+    const filtered = activeCategory === 'all' ? tools : tools.filter(function(t) { return t.category === activeCategory; });
+    const cat = categories.find(function(c) { return c.id === activeCategory; });
     this.setData({ filteredTools: filtered, sectionTitle: cat ? cat.name : '全部工具' });
   },
 
@@ -166,7 +199,10 @@ Page({
       qrcode: '/pages/qrcode/qrcode',
       compress: '/pages/compress/compress',
       ruler: '/pages/ruler/ruler',
-      calculator: '/pages/calculator/calculator'
+      calculator: '/pages/calculator/calculator',
+      countdown: '/pages/countdown/countdown',
+      relative: '/pages/relative/relative',
+      colorpicker: '/pages/colorpicker/colorpicker'
     };
     
     if (routes[id]) {
@@ -183,14 +219,14 @@ Page({
 
   onShareAppMessage() {
     return {
-      title: 'JM工具箱 - 免费二维码生成/图片压缩/房贷计算/拼豆生成',
+      title: 'JM工具箱 - 免费倒计时/二维码/图片压缩/房贷计算/亲戚称谓',
       path: '/pages/index/index'
     };
   },
 
   onAddToFavorites() {
     return {
-      title: 'JM工具箱 - 永久免费实用工具合集'
+      title: 'JM工具箱 - 永久免费12款实用工具合集'
     };
   }
 });

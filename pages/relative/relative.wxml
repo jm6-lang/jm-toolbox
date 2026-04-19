@@ -1,0 +1,41 @@
+<view class="page">
+  <view class="header">
+    <text class="header-title">👨‍👩‍👧‍👦 亲戚称谓计算器</text>
+    <text class="header-sub">点击按钮组合关系，自动算出称谓</text>
+  </view>
+
+  <view class="chain-display" wx:if="{{chainDisplay.length > 0}}">
+    <view class="chain-tags">
+      <text class="chain-tag" wx:for="{{chainDisplay}}" wx:key="index">{{item}}</text>
+    </view>
+    <text class="chain-arrow">→</text>
+    <text class="chain-result">{{result}}</text>
+  </view>
+
+  <view class="empty-hint" wx:if="{{chainDisplay.length === 0}}">
+    <text class="empty-icon">👆</text>
+    <text class="empty-text">点击下方按钮开始计算</text>
+  </view>
+
+  <view class="keypad">
+    <view class="key-row" wx:for="{{3}}" wx:key="index">
+      <view class="key-item" wx:for="{{buttons}}" wx:key="id" wx:if="{{index * 4 + index2 < buttons.length}}" 
+        data-id="{{buttons[index * 4 + index2].id}}" bindtap="onButtonTap">
+        <text class="key-label">{{buttons[index * 4 + index2].label}}</text>
+        <text class="key-desc">{{buttons[index * 4 + index2].desc}}</text>
+      </view>
+    </view>
+  </view>
+
+  <view class="btn-row">
+    <button class="btn-undo" bindtap="undo">退一步</button>
+    <button class="btn-reset" bindtap="reset">重新计算</button>
+  </view>
+
+  <view class="tips">
+    <text class="tips-title">💡 使用示例</text>
+    <text class="tips-item">爸爸的哥哥 → 伯父</text>
+    <text class="tips-item">妈妈的姐姐 → 姨妈</text>
+    <text class="tips-item">爸爸的哥哥的儿子 → 堂兄</text>
+  </view>
+</view>

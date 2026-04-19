@@ -1,0 +1,49 @@
+<view class="page">
+  <view class="header">
+    <text class="header-title">📅 倒计时</text>
+    <text class="header-sub">今天是 {{today}}</text>
+  </view>
+
+  <view class="event-list" wx:if="{{events.length > 0}}">
+    <view class="event-card {{item.isPast ? 'event-past' : ''}}" wx:for="{{events}}" wx:key="id">
+      <view class="event-main">
+        <view class="event-days">
+          <text class="days-num">{{item.isPast ? '+' + Math.abs(item.days) : item.days}}</text>
+          <text class="days-label">{{item.isPast ? '天前' : '天后'}}</text>
+        </view>
+        <view class="event-info">
+          <text class="event-title">{{item.title}}</text>
+          <text class="event-date">{{item.date}}</text>
+        </view>
+      </view>
+      <view class="event-delete" data-id="{{item.id}}" bindtap="deleteEvent">✕</view>
+    </view>
+  </view>
+
+  <view class="empty" wx:if="{{events.length === 0}}">
+    <text class="empty-icon">📋</text>
+    <text class="empty-text">还没有倒计时事件</text>
+  </view>
+
+  <button class="btn-add" bindtap="showAddForm">＋ 添加倒计时</button>
+
+  <!-- 添加弹窗 -->
+  <view class="modal-mask" wx:if="{{showAdd}}" bindtap="hideAddForm"></view>
+  <view class="modal" wx:if="{{showAdd}}">
+    <view class="modal-title">添加倒计时</view>
+    <view class="modal-field">
+      <text class="modal-label">事件名称</text>
+      <input class="modal-input" placeholder="如：考试、生日、纪念日" value="{{newTitle}}" bindinput="onTitleInput" />
+    </view>
+    <view class="modal-field">
+      <text class="modal-label">目标日期</text>
+      <picker mode="date" value="{{newDate}}" bindchange="onDateChange">
+        <view class="modal-input picker-val">{{newDate || '选择日期'}}</view>
+      </picker>
+    </view>
+    <view class="modal-btns">
+      <button class="modal-btn cancel" bindtap="hideAddForm">取消</button>
+      <button class="modal-btn confirm" bindtap="addEvent">确定</button>
+    </view>
+  </view>
+</view>

@@ -1,0 +1,40 @@
+<view class="page">
+  <view class="upload-area" bindtap="chooseImage">
+    <block wx:if="{{imagePath}}">
+      <image class="preview-img" src="{{imagePath}}" mode="aspectFit" />
+    </block>
+    <block wx:else>
+      <text class="upload-icon">🎨</text>
+      <text class="upload-text">选择图片识别颜色</text>
+    </block>
+  </view>
+
+  <view class="color-list" wx:if="{{colors.length > 0}}">
+    <view class="section-title">识别到的颜色</view>
+    <view class="color-items">
+      <view class="color-item" wx:for="{{colors}}" wx:key="hex" data-index="{{index}}" bindtap="onColorTap">
+        <view class="color-swatch" style="background:{{item.hex}};"></view>
+        <view class="color-info">
+          <text class="color-name">{{item.name}}</text>
+          <text class="color-hex">{{item.hex}}</text>
+        </view>
+        <text class="color-percent">{{item.percent}}%</text>
+      </view>
+    </view>
+  </view>
+
+  <view class="picked-detail" wx:if="{{pickedColor}}">
+    <view class="picked-header">
+      <view class="picked-swatch" style="background:{{pickedColor.hex}};"></view>
+      <view class="picked-info">
+        <text class="picked-name">{{pickedColor.name}}</text>
+        <text class="picked-hex">{{pickedColor.hex}}</text>
+        <text class="picked-rgb">rgb({{pickedColor.rgb}})</text>
+      </view>
+    </view>
+    <view class="copy-btns">
+      <button class="copy-btn" data-type="hex" bindtap="copyColor">复制HEX</button>
+      <button class="copy-btn" data-type="rgb" bindtap="copyColor">复制RGB</button>
+    </view>
+  </view>
+</view>

@@ -3,15 +3,8 @@
   "rules": [
     {
       "action": "allow",
-      "page": "pages/beadart/beadart",
-      "params": ["image", "size"],
-      "matching": "inclusive",
-      "priority": 2
-    },
-    {
-      "action": "allow",
-      "page": "pages/watermark/watermark",
-      "priority": 2
+      "page": "pages/countdown/countdown",
+      "priority": 3
     },
     {
       "action": "allow",
@@ -25,13 +18,35 @@
     },
     {
       "action": "allow",
-      "page": "pages/ruler/ruler",
+      "page": "pages/calculator/calculator",
+      "priority": 3
+    },
+    {
+      "action": "allow",
+      "page": "pages/relative/relative",
       "priority": 2
     },
     {
       "action": "allow",
-      "page": "pages/calculator/calculator",
+      "page": "pages/colorpicker/colorpicker",
       "priority": 2
+    },
+    {
+      "action": "allow",
+      "page": "pages/beadart/beadart",
+      "params": ["image", "size"],
+      "matching": "inclusive",
+      "priority": 2
+    },
+    {
+      "action": "allow",
+      "page": "pages/watermark/watermark",
+      "priority": 1
+    },
+    {
+      "action": "allow",
+      "page": "pages/ruler/ruler",
+      "priority": 1
     },
     {
       "action": "allow",
@@ -41,7 +56,7 @@
     {
       "action": "allow",
       "page": "pages/meme/meme",
-      "priority": 1
+      "priority": 0
     },
     {
       "action": "allow",
