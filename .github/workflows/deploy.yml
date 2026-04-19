@@ -24,10 +24,28 @@ jobs:
 
       - name: Deploy to WeChat Mini Program
         run: |
-          echo "${{ secrets.MINIPROGRAM_UPLOAD_PRIVATE_KEY }}" > /tmp/private.key
-          npx miniprogram-ci \
+          echo "=== Node & npm versions ==="
+          node --version
+          npm --version
+          echo "=== Global npm root ==="
+          npm root -g
+          echo "=== Write private key ==="
+          printf '%s\n' "${{ secrets.MINIPROGRAM_UPLOAD_PRIVATE_KEY }}" > /tmp/private.key
+          echo "Private key written, size: $(wc -c < /tmp/private.key) bytes"
+          echo "=== Check project files ==="
+          ls -la ${{ github.workspace }}
+          echo "=== Check app.json ==="
+          head -3 ${{ github.workspace }}/app.json
+          echo "=== Check project.config.json ==="
+          grep appid ${{ github.workspace }}/project.config.json
+          echo "=== Run miniprogram-ci preview ==="
+          $(npm root -g)/miniprogram-ci/bin/miniprogram-ci.js preview \
             --appid wx92d88f2ddf8bad27 \
             --private-key /tmp/private.key \
             --project ${{ github.workspace }} \
             --version 1.0.${{ github.run_number }} \
-            --desc 'Auto deploy via GitHub Actions'
+            --desc 'Auto deploy via GitHub Actions' \
+            --qrcode-format image \
+            --qrcode-output /tmp/qrcode.png \
+            --login \
+            --upload
