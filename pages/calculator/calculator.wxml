@@ -44,20 +44,20 @@
     <view class="result-row">
       <view class="result-item">
         <text class="result-label">贷款总额</text>
-        <text class="result-num">{{((commercialLoan + fundLoan)/10000).toFixed(2)}}万</text>
+        <text class="result-num">{{loanTotalWan}}万</text>
       </view>
       <view class="result-item">
         <text class="result-label">还款总额</text>
-        <text class="result-num">{{(totalPayment/10000).toFixed(2)}}万</text>
+        <text class="result-num">{{totalPaymentWan}}万</text>
       </view>
       <view class="result-item">
         <text class="result-label">利息总额</text>
-        <text class="result-num">{{(totalInterest/10000).toFixed(2)}}万</text>
+        <text class="result-num">{{totalInterestWan}}万</text>
       </view>
     </view>
     <view class="result-detail" wx:if="{{loanType === 'combo'}}">
-      <text class="detail-line">商贷: {{(commercialLoan/10000).toFixed(2)}}万 → 月供{{(commercialLoan * commercialRate/100/12 * Math.pow(1+commercialRate/100/12, loanYears*12) / (Math.pow(1+commercialRate/100/12, loanYears*12) - 1)).toFixed(2)}}元</text>
-      <text class="detail-line">公积金: {{(fundLoan/10000).toFixed(2)}}万</text>
+      <text class="detail-line">商贷: {{commercialLoanWan}}万 → 月供{{commercialMonthly}}元</text>
+      <text class="detail-line">公积金: {{fundLoanWan}}万 → 月供{{fundMonthly}}元</text>
     </view>
   </view>
 </view>

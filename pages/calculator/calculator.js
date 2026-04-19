@@ -3,22 +3,23 @@ Page({
   data: {
     tabs: ['房贷计算', '商业贷款', '公积金'],
     activeTab: 0,
-    loanType: 'combo', // combo, commercial, fund
+    loanType: 'combo',
     totalPrice: 200,
     downPayment: 30,
     loanYears: 30,
     commercialRate: 3.95,
     fundRate: 2.85,
-    commercialLoan: 0,
-    fundLoan: 0,
-    // 计算结果
-    monthlyPayment: 0,
-    totalPayment: 0,
-    totalInterest: 0,
-    calculated: false,
-    // 选项
     yearOptions: [5, 10, 15, 20, 25, 30],
-    yearIndex: 5
+    yearIndex: 5,
+    calculated: false,
+    monthlyPayment: '0.00',
+    loanTotalWan: '0.00',
+    totalPaymentWan: '0.00',
+    totalInterestWan: '0.00',
+    commercialLoanWan: '0.00',
+    fundLoanWan: '0.00',
+    commercialMonthly: '0.00',
+    fundMonthly: '0.00'
   },
 
   onTabChange(e) {
@@ -53,7 +54,6 @@ Page({
 
     const months = loanYears * 12;
 
-    // 等额本息公式: M = P * r * (1+r)^n / ((1+r)^n - 1)
     function calcMonthly(principal, annualRate, n) {
       if (principal <= 0) return 0;
       const monthlyRate = annualRate / 100 / 12;
@@ -69,11 +69,14 @@ Page({
     const totalInterest = totalPayment - totalLoan;
 
     this.setData({
-      commercialLoan,
-      fundLoan,
       monthlyPayment: monthlyPayment.toFixed(2),
-      totalPayment: totalPayment.toFixed(2),
-      totalInterest: totalInterest.toFixed(2),
+      loanTotalWan: (totalLoan / 10000).toFixed(2),
+      totalPaymentWan: (totalPayment / 10000).toFixed(2),
+      totalInterestWan: (totalInterest / 10000).toFixed(2),
+      commercialLoanWan: (commercialLoan / 10000).toFixed(2),
+      fundLoanWan: (fundLoan / 10000).toFixed(2),
+      commercialMonthly: commercialMonthly.toFixed(2),
+      fundMonthly: fundMonthly.toFixed(2),
       calculated: true
     });
   },
