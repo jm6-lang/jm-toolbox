@@ -14,38 +14,12 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
+      - name: Upload and Preview
+        uses: mqcmd196/miniprogram-ci-action@v1
         with:
-          node-version: '20'
-
-      - name: Install miniprogram-ci
-        run: npm install -g miniprogram-ci
-
-      - name: Deploy to WeChat Mini Program
-        run: |
-          echo "=== Node & npm versions ==="
-          node --version
-          npm --version
-          echo "=== Global npm root ==="
-          npm root -g
-          echo "=== Write private key ==="
-          printf '%s\n' "${{ secrets.MINIPROGRAM_UPLOAD_PRIVATE_KEY }}" > /tmp/private.key
-          echo "Private key written, size: $(wc -c < /tmp/private.key) bytes"
-          echo "=== Check project files ==="
-          ls -la ${{ github.workspace }}
-          echo "=== Check app.json ==="
-          head -3 ${{ github.workspace }}/app.json
-          echo "=== Check project.config.json ==="
-          grep appid ${{ github.workspace }}/project.config.json
-          echo "=== Run miniprogram-ci preview ==="
-          $(npm root -g)/miniprogram-ci/bin/miniprogram-ci.js preview \
-            --appid wx92d88f2ddf8bad27 \
-            --private-key /tmp/private.key \
-            --project ${{ github.workspace }} \
-            --version 1.0.${{ github.run_number }} \
-            --desc 'Auto deploy via GitHub Actions' \
-            --qrcode-format image \
-            --qrcode-output /tmp/qrcode.png \
-            --login \
-            --upload
+          type: preview
+          appid: wx92d88f2ddf8bad27
+          privatekey: ${{ secrets.MINIPROGRAM_UPLOAD_PRIVATE_KEY }}
+          projectpath: ./
+          version: 1.0.${{ github.run_number }}
+          desc: 'Auto deploy via GitHub Actions'
