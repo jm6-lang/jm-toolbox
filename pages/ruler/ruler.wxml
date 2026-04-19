@@ -5,13 +5,11 @@
   </view>
 
   <view class="ruler-container">
-    <view class="ruler">
-      <!-- 刻度线 -->
-      <view class="tick {{item.major ? 'tick-major' : 'tick-minor'}}" 
-        wx:for="{{20}}" wx:key="index"
-        style="left: {{(index + 1) * (mode === 'cm' ? 375 : 375/2.54)}}rpx;">
-        <view class="tick-line {{item.major ? '' : 'short'}}"></view>
-        <text class="tick-label" wx:if="{{(index + 1) % 1 === 0}}">{{index + 1}}{{mode}}</text>
+    <view class="ruler" style="width:750rpx;">
+      <view class="tick tick-major" wx:for="{{ticks}}" wx:key="value"
+        style="left:{{item.left}}rpx;">
+        <view class="tick-line {{item.isMajor ? '' : 'short'}}"></view>
+        <text class="tick-label" wx:if="{{item.isMajor}}">{{item.value}}{{mode}}</text>
       </view>
     </view>
   </view>

@@ -2,65 +2,74 @@
 Page({
   data: {
     inputText: '',
-    qrSize: 200,
+    charCount: 0,
+    qrSizePx: 200,
     fgColor: '#000000',
     bgColor: '#FFFFFF',
     generated: false,
-    qrImagePath: '',
     tabs: ['文字', '网址', 'WiFi'],
     activeTab: 0,
-    wifiConfig: { ssid: '', password: '', encryption: 'WPA' },
+    wifiSSID: '',
+    wifiPassword: '',
+    encryptionIndex: 0,
+    encryptionOptions: ['WPA', 'WEP', '无加密'],
     sizeOptions: [150, 200, 250, 300],
+    sizeLabels: ['150px', '200px', '250px', '300px'],
     sizeIndex: 1
   },
 
   onTabChange(e) {
-    this.setData({ activeTab: e.currentTarget.dataset.index, generated: false });
+    this.setData({ activeTab: e.currentTarget.dataset.index, generated: false, inputText: '', charCount: 0 });
   },
 
   onInputChange(e) {
-    this.setData({ inputText: e.detail.value });
+    this.setData({ inputText: e.detail.value, charCount: e.detail.value.length });
   },
 
-  onWifiInput(e) {
-    const field = e.currentTarget.dataset.field;
-    this.setData({ [`wifiConfig.${field}`]: e.detail.value });
+  onWifiSSIDInput(e) {
+    this.setData({ wifiSSID: e.detail.value });
+  },
+
+  onWifiPasswordInput(e) {
+    this.setData({ wifiPassword: e.detail.value });
+  },
+
+  onEncryptionChange(e) {
+    this.setData({ encryptionIndex: e.detail.value });
   },
 
   onSizeChange(e) {
     const idx = e.detail.value;
-    this.setData({ sizeIndex: idx, qrSize: this.data.sizeOptions[idx] });
+    this.setData({ sizeIndex: idx, qrSizePx: this.data.sizeOptions[idx] });
   },
 
-  onColorChange(e) {
-    const field = e.currentTarget.dataset.field;
-    this.setData({ [field]: e.detail.value });
+  onFgColorInput(e) {
+    this.setData({ fgColor: e.detail.value });
+  },
+
+  onBgColorInput(e) {
+    this.setData({ bgColor: e.detail.value });
   },
 
   generateQR() {
     let text = this.data.inputText.trim();
     const tab = this.data.activeTab;
 
-    if (tab === 1 && text && !text.startsWith('http')) {
+    if (tab === 1 && text && text.indexOf('http') !== 0) {
       text = 'https://' + text;
     }
     if (tab === 2) {
-      const wifi = this.data.wifiConfig;
-      if (!wifi.ssid) { wx.showToast({ title: '请输入WiFi名称', icon: 'none' }); return; }
-      text = `WIFI:T:${wifi.encryption};S:${wifi.ssid};P:${wifi.password};;`;
+      const ssid = this.data.wifiSSID;
+      if (!ssid) { wx.showToast({ title: '请输入WiFi名称', icon: 'none' }); return; }
+      const enc = this.data.encryptionOptions[this.data.encryptionIndex];
+      text = 'WIFI:T:' + enc + ';S:' + ssid + ';P:' + this.data.wifiPassword + ';;';
     }
 
     if (!text) { wx.showToast({ title: '请输入内容', icon: 'none' }); return; }
 
     wx.showLoading({ title: '生成中...' });
-
-    // 使用微信内置API生成小程序码（实际项目可用云函数调用第三方QR库）
-    // 这里用canvas绘制简单二维码占位
     const that = this;
-    const query = new Option;
-    
-    // 模拟生成过程
-    setTimeout(() => {
+    setTimeout(function() {
       wx.hideLoading();
       that.setData({ generated: true });
       wx.showToast({ title: '生成成功', icon: 'success' });
@@ -73,7 +82,7 @@ Page({
 
   onShareAppMessage() {
     return {
-      title: '免费二维码生成器 - 支持文字/网址/WiFi',
+      title: '免费二维码生成器 - 支持文字网址WiFi',
       path: '/pages/qrcode/qrcode'
     };
   }

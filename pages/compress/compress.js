@@ -5,10 +5,19 @@ Page({
     quality: 80,
     totalOriginal: 0,
     totalCompressed: 0,
+    totalOriginalStr: '0KB',
+    totalCompressedStr: '0KB',
     processing: false
   },
 
+  formatSize(bytes) {
+    if (bytes < 1024) return bytes + 'B';
+    if (bytes < 1048576) return (bytes / 1024).toFixed(1) + 'KB';
+    return (bytes / 1048576).toFixed(2) + 'MB';
+  },
+
   chooseImages() {
+    const that = this;
     wx.chooseMedia({
       count: 9,
       mediaType: ['image'],
@@ -17,14 +26,21 @@ Page({
         const newImages = res.tempFiles.map(f => ({
           path: f.tempFilePath,
           size: f.size,
+          sizeStr: that.formatSize(f.size),
           compressed: false,
           compressedPath: '',
           compressedSize: 0,
-          ratio: ''
+          compressedSizeStr: '',
+          ratio: '',
+          ratioGood: false
         }));
-        const images = [...this.data.images, ...newImages];
+        const images = that.data.images.concat(newImages);
         const totalOriginal = images.reduce((s, i) => s + i.size, 0);
-        this.setData({ images, totalOriginal });
+        that.setData({
+          images: images,
+          totalOriginal: totalOriginal,
+          totalOriginalStr: that.formatSize(totalOriginal)
+        });
       }
     });
   },
@@ -41,6 +57,7 @@ Page({
     this.setData({ processing: true });
     wx.showLoading({ title: '压缩中...' });
 
+    const that = this;
     const images = this.data.images.slice();
     let totalCompressed = 0;
 
@@ -49,14 +66,17 @@ Page({
         try {
           const res = await wx.compressImage({
             src: images[i].path,
-            quality: this.data.quality
+            quality: that.data.quality
           });
           const info = await wx.getFileInfo({ filePath: res.tempFilePath });
           const ratio = ((1 - info.size / images[i].size) * 100).toFixed(1);
+          const ratioGood = ratio > 0;
           images[i].compressed = true;
           images[i].compressedPath = res.tempFilePath;
           images[i].compressedSize = info.size;
-          images[i].ratio = ratio > 0 ? `-${ratio}%` : '+0%';
+          images[i].compressedSizeStr = that.formatSize(info.size);
+          images[i].ratio = ratioGood ? '-' + ratio + '%' : '+0%';
+          images[i].ratioGood = ratioGood;
           totalCompressed += info.size;
         } catch (e) {
           images[i].compressed = false;
@@ -68,7 +88,12 @@ Page({
     }
 
     wx.hideLoading();
-    this.setData({ images, totalCompressed, processing: false });
+    that.setData({
+      images: images,
+      totalCompressed: totalCompressed,
+      totalCompressedStr: that.formatSize(totalCompressed),
+      processing: false
+    });
     wx.showToast({ title: '压缩完成！', icon: 'success' });
   },
 
@@ -89,24 +114,14 @@ Page({
     compressed.forEach(img => {
       wx.saveImageToPhotosAlbum({
         filePath: img.compressedPath,
-        success: () => { saved++; if (saved === compressed.length) wx.showToast({ title: `已保存${saved}张`, icon: 'success' }); }
+        success: () => { saved++; if (saved === compressed.length) wx.showToast({ title: '已保存' + saved + '张', icon: 'success' }); }
       });
     });
   },
 
-  clearAll() {
-    this.setData({ images: [], totalOriginal: 0, totalCompressed: 0 });
-  },
-
-  formatSize(bytes) {
-    if (bytes < 1024) return bytes + 'B';
-    if (bytes < 1048576) return (bytes / 1024).toFixed(1) + 'KB';
-    return (bytes / 1048576).toFixed(2) + 'MB';
-  },
-
   onShareAppMessage() {
     return {
-      title: '免费图片压缩工具 - 批量压缩缩小体积不画质',
+      title: '免费图片压缩工具 - 批量压缩缩小体积不失真',
       path: '/pages/compress/compress'
     };
   }

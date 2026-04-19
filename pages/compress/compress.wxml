@@ -14,17 +14,17 @@
     </view>
 
     <view class="stats">
-      <text class="stat">原始: {{totalOriginal > 1048576 ? (totalOriginal/1048576).toFixed(2) : (totalOriginal/1024).toFixed(1)}}{{totalOriginal > 1048576 ? 'MB' : 'KB'}}</text>
+      <text class="stat">原始: {{totalOriginalStr}}</text>
       <text class="stat-arrow">→</text>
-      <text class="stat result">压缩后: {{totalCompressed > 1048576 ? (totalCompressed/1048576).toFixed(2) : (totalCompressed/1024).toFixed(1)}}{{totalCompressed > 1048576 ? 'MB' : 'KB'}}</text>
+      <text class="stat result">压缩后: {{totalCompressedStr}}</text>
     </view>
 
     <view class="image-list">
       <view class="image-item" wx:for="{{images}}" wx:key="index">
         <image class="image-thumb" src="{{item.compressed ? item.compressedPath : item.path}}" mode="aspectFill" />
         <view class="image-info">
-          <text class="image-size">{{item.size > 1048576 ? (item.size/1048576).toFixed(2) : (item.size/1024).toFixed(1)}}{{item.size > 1048576 ? 'MB' : 'KB'}}</text>
-          <text class="image-ratio {{item.ratio && item.ratio.indexOf('-') === 0 ? 'ratio-good' : ''}}" wx:if="{{item.compressed}}">{{item.ratio}}</text>
+          <text class="image-size">{{item.sizeStr}}</text>
+          <text class="image-ratio {{item.ratioGood ? 'ratio-good' : ''}}" wx:if="{{item.compressed}}">{{item.ratio}}</text>
         </view>
         <button class="btn-sm" wx:if="{{item.compressed}}" data-index="{{index}}" bindtap="saveImage">保存</button>
       </view>
