@@ -14,12 +14,37 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Upload and Preview
-        uses: mqcmd196/miniprogram-ci-action@v1
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
         with:
-          type: preview
-          appid: wx92d88f2ddf8bad27
-          privatekey: ${{ secrets.MINIPROGRAM_UPLOAD_PRIVATE_KEY }}
-          projectpath: ./
-          version: 1.0.${{ github.run_number }}
-          desc: 'Auto deploy via GitHub Actions'
+          node-version: '20'
+
+      - name: Install miniprogram-ci
+        run: npm install -g miniprogram-ci
+
+      - name: Deploy to WeChat Mini Program
+        run: |
+          echo "=== Write private key to file ==="
+          echo "${{ secrets.MINIPROGRAM_UPLOAD_PRIVATE_KEY }}" > /tmp/private.key
+          chmod 600 /tmp/private.key
+          echo "Key size: $(wc -c < /tmp/private.key) bytes"
+          echo "Key head: $(head -c 50 /tmp/private.key)"
+          
+          echo "=== Verify project config ==="
+          grep appid project.config.json
+          echo "=== Package version ==="
+          cat /tmp/node-version.txt 2>/dev/null || node --version
+          
+          echo "=== Run upload ==="
+          set -x
+          npx --yes miniprogram-ci \
+            --appid wx92d88f2ddf8bad27 \
+            --private-key /tmp/private.key \
+            --project . \
+            --version 1.0.${{ github.run_number }} \
+            --desc 'Auto deploy via GitHub Actions' \
+            2>&1 | tee /tmp/upload.log
+          EXIT_CODE=$?
+          echo "Exit code: $EXIT_CODE"
+          cat /tmp/upload.log
+          if [ $EXIT_CODE -ne 0 ]; then exit $EXIT_CODE; fi
