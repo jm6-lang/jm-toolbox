@@ -1,5 +1,5 @@
 {
-  "description": "JM的工具箱 - 微信小程序",
+  "description": "JM工具箱 - 免费实用工具合集：二维码生成器、图片压缩、房贷计算器、拼豆生成器、图片去水印、敏感词检测、手机尺子、表情包、兽语翻译",
   "packOptions": {
     "ignore": [],
     "include": []

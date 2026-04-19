@@ -105,6 +105,27 @@
   color: #999999;
 }
 
+/* Categories */
+.categories {
+  white-space: nowrap;
+  padding: 0 32rpx 16rpx;
+  margin-bottom: 16rpx;
+}
+.cat-item {
+  display: inline-block;
+  padding: 12rpx 28rpx;
+  font-size: 26rpx;
+  color: #666;
+  background: #fff;
+  border-radius: 32rpx;
+  margin-right: 16rpx;
+}
+.cat-active {
+  background: #6C5CE7;
+  color: #fff;
+  font-weight: 600;
+}
+
 /* Tools List */
 .tools-list {
   padding: 0 32rpx 40rpx;

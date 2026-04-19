@@ -1,1 +1,4 @@
-{"usingComponents":{},"navigationBarTitleText":"敏感词检测"}
+{
+  "usingComponents": {},
+  "navigationBarTitleText": "敏感词检测 - 文本违规词过滤"
+}

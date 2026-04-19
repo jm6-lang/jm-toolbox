@@ -1,0 +1,26 @@
+<view class="page">
+  <view class="mode-switch" bindtap="switchMode">
+    <text class="mode-text">{{mode === 'cm' ? '厘米(cm)' : '英寸(inch)'}}</text>
+    <text class="mode-hint">点击切换</text>
+  </view>
+
+  <view class="ruler-container">
+    <view class="ruler">
+      <!-- 刻度线 -->
+      <view class="tick {{item.major ? 'tick-major' : 'tick-minor'}}" 
+        wx:for="{{20}}" wx:key="index"
+        style="left: {{(index + 1) * (mode === 'cm' ? 375 : 375/2.54)}}rpx;">
+        <view class="tick-line {{item.major ? '' : 'short'}}"></view>
+        <text class="tick-label" wx:if="{{(index + 1) % 1 === 0}}">{{index + 1}}{{mode}}</text>
+      </view>
+    </view>
+  </view>
+
+  <view class="info-card">
+    <text class="info-title">📏 使用说明</text>
+    <text class="info-item">• 将物品边缘对齐0刻度线</text>
+    <text class="info-item">• 读取另一端对应的刻度值</text>
+    <text class="info-item">• 精度取决于屏幕尺寸校准</text>
+    <text class="info-item">• 检测到屏幕: {{screenDiagonal}}英寸</text>
+  </view>
+</view>

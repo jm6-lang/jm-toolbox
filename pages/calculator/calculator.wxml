@@ -1,0 +1,63 @@
+<view class="page">
+  <view class="tabs">
+    <view class="tab {{activeTab === index ? 'tab-active' : ''}}" wx:for="{{tabs}}" wx:key="index"
+      data-index="{{index}}" bindtap="onTabChange">{{item}}</view>
+  </view>
+
+  <view class="card">
+    <view class="form-item">
+      <text class="form-label">房屋总价</text>
+      <input class="form-input" type="digit" value="{{totalPrice}}" data-field="totalPrice" bindinput="onInput" />
+      <text class="form-unit">万元</text>
+    </view>
+    <view class="form-item">
+      <text class="form-label">首付比例</text>
+      <input class="form-input" type="digit" value="{{downPayment}}" data-field="downPayment" bindinput="onInput" />
+      <text class="form-unit">%</text>
+    </view>
+    <view class="form-item">
+      <text class="form-label">贷款年限</text>
+      <picker range="{{yearOptions}}" value="{{yearIndex}}" bindchange="onYearChange">
+        <view class="form-input picker">{{loanYears}}年</view>
+      </picker>
+    </view>
+    <view class="form-item" wx:if="{{loanType !== 'fund'}}">
+      <text class="form-label">商贷利率</text>
+      <input class="form-input" type="digit" value="{{commercialRate}}" data-field="commercialRate" bindinput="onInput" />
+      <text class="form-unit">%</text>
+    </view>
+    <view class="form-item" wx:if="{{loanType !== 'commercial'}}">
+      <text class="form-label">公积金利率</text>
+      <input class="form-input" type="digit" value="{{fundRate}}" data-field="fundRate" bindinput="onInput" />
+      <text class="form-unit">%</text>
+    </view>
+  </view>
+
+  <button class="btn-calc" bindtap="calculate">开始计算</button>
+
+  <view class="result-card" wx:if="{{calculated}}">
+    <view class="result-title">计算结果（等额本息）</view>
+    <view class="result-main">
+      <text class="result-label">每月月供</text>
+      <text class="result-value">{{monthlyPayment}}元</text>
+    </view>
+    <view class="result-row">
+      <view class="result-item">
+        <text class="result-label">贷款总额</text>
+        <text class="result-num">{{((commercialLoan + fundLoan)/10000).toFixed(2)}}万</text>
+      </view>
+      <view class="result-item">
+        <text class="result-label">还款总额</text>
+        <text class="result-num">{{(totalPayment/10000).toFixed(2)}}万</text>
+      </view>
+      <view class="result-item">
+        <text class="result-label">利息总额</text>
+        <text class="result-num">{{(totalInterest/10000).toFixed(2)}}万</text>
+      </view>
+    </view>
+    <view class="result-detail" wx:if="{{loanType === 'combo'}}">
+      <text class="detail-line">商贷: {{(commercialLoan/10000).toFixed(2)}}万 → 月供{{(commercialLoan * commercialRate/100/12 * Math.pow(1+commercialRate/100/12, loanYears*12) / (Math.pow(1+commercialRate/100/12, loanYears*12) - 1)).toFixed(2)}}元</text>
+      <text class="detail-line">公积金: {{(fundLoan/10000).toFixed(2)}}万</text>
+    </view>
+  </view>
+</view>

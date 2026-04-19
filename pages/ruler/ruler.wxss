@@ -1,0 +1,13 @@
+.page { padding: 24rpx; background: #f5f6fa; min-height: 100vh; }
+.mode-switch { display: flex; flex-direction: column; align-items: center; padding: 24rpx; background: #fff; border-radius: 16rpx; margin-bottom: 24rpx; }
+.mode-text { font-size: 36rpx; font-weight: 600; color: #6C5CE7; }
+.mode-hint { font-size: 24rpx; color: #999; margin-top: 4rpx; }
+.ruler-container { background: #fff; border-radius: 16rpx; padding: 32rpx 24rpx; margin-bottom: 24rpx; overflow: hidden; }
+.ruler { position: relative; height: 160rpx; border-left: 2rpx solid #333; border-bottom: 2rpx solid #333; }
+.tick { position: absolute; bottom: 0; display: flex; flex-direction: column; align-items: center; }
+.tick-line { width: 2rpx; height: 40rpx; background: #333; }
+.tick-line.short { height: 24rpx; background: #999; }
+.tick-label { font-size: 20rpx; color: #333; margin-top: 4rpx; }
+.info-card { background: #fff; border-radius: 16rpx; padding: 24rpx; }
+.info-title { font-size: 30rpx; font-weight: 600; color: #333; display: block; margin-bottom: 16rpx; }
+.info-item { font-size: 26rpx; color: #666; display: block; line-height: 2; }

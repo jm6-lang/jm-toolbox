@@ -6,12 +6,16 @@
     "pages/sensitive/sensitive",
     "pages/meme/meme",
     "pages/translate/translate",
+    "pages/qrcode/qrcode",
+    "pages/compress/compress",
+    "pages/ruler/ruler",
+    "pages/calculator/calculator",
     "pages/history/history",
     "pages/about/about"
   ],
   "window": {
     "navigationBarBackgroundColor": "#6C5CE7",
-    "navigationBarTitleText": "JM的工具箱",
+    "navigationBarTitleText": "JM工具箱",
     "navigationBarTextStyle": "white",
     "backgroundColor": "#F8F9FA",
     "backgroundTextStyle": "dark"
@@ -24,7 +28,7 @@
     "list": [
       {
         "pagePath": "pages/index/index",
-        "text": "首页",
+        "text": "工具",
         "iconPath": "assets/icons/home.png",
         "selectedIconPath": "assets/icons/home-active.png"
       },

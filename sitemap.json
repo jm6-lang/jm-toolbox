@@ -3,7 +3,62 @@
   "rules": [
     {
       "action": "allow",
-      "page": "*"
+      "page": "pages/beadart/beadart",
+      "params": ["image", "size"],
+      "matching": "inclusive",
+      "priority": 2
+    },
+    {
+      "action": "allow",
+      "page": "pages/watermark/watermark",
+      "priority": 2
+    },
+    {
+      "action": "allow",
+      "page": "pages/qrcode/qrcode",
+      "priority": 3
+    },
+    {
+      "action": "allow",
+      "page": "pages/compress/compress",
+      "priority": 3
+    },
+    {
+      "action": "allow",
+      "page": "pages/ruler/ruler",
+      "priority": 2
+    },
+    {
+      "action": "allow",
+      "page": "pages/calculator/calculator",
+      "priority": 2
+    },
+    {
+      "action": "allow",
+      "page": "pages/sensitive/sensitive",
+      "priority": 1
+    },
+    {
+      "action": "allow",
+      "page": "pages/meme/meme",
+      "priority": 1
+    },
+    {
+      "action": "allow",
+      "page": "pages/translate/translate",
+      "priority": 0
+    },
+    {
+      "action": "disallow",
+      "page": "pages/about/about"
+    },
+    {
+      "action": "disallow",
+      "page": "pages/history/history"
+    },
+    {
+      "action": "allow",
+      "page": "pages/index/index"
     }
   ]
 }
