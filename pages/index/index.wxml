@@ -34,7 +34,7 @@
 
   <!-- Tools -->
   <view class="section-title">
-    <text class="title-text">{{activeCategory === 'all' ? '全部工具' : categories[categories.findIndex(c=>c.id===activeCategory)].name}}</text>
+    <text class="title-text">{{sectionTitle}}</text>
     <text class="title-count">共{{filteredTools.length}}个</text>
   </view>
 

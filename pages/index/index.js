@@ -113,6 +113,7 @@ Page({
     ],
     activeCategory: 'all',
     filteredTools: [],
+    sectionTitle: '全部工具',
     stats: {
       toolsUsed: 0,
       totalUsers: '10万+'
@@ -133,9 +134,10 @@ Page({
   },
 
   filterTools() {
-    const { tools, activeCategory } = this.data;
+    const { tools, activeCategory, categories } = this.data;
     const filtered = activeCategory === 'all' ? tools : tools.filter(t => t.category === activeCategory);
-    this.setData({ filteredTools: filtered });
+    const cat = categories.find(c => c.id === activeCategory);
+    this.setData({ filteredTools: filtered, sectionTitle: cat ? cat.name : '全部工具' });
   },
 
   onCategoryTap(e) {
